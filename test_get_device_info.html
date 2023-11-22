@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+    <title>?js获取设备信息</title>
+</head>
+
+<!-- <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/mobile-detect@1.4.4/mobile-detect.min.js"> -->
+// <script src="./jquery.min.js"></script>
+<script src="./mobile-detect-1.4.4.min.js"></script>
+</script>
+<script>
+    //判断数组中是否包含某字符串 
+    Array.prototype.contains = function(needle) {
+        for (i in this) {
+            if (this[i].indexOf(needle) > 0)
+                return i;
+        }
+        return -1;
+    }
+    var device_type = navigator.userAgent; //获取userAgent信息 
+    document.write(device_type); //打印到页面 
+    var md = new MobileDetect(device_type); //初始化mobile-detect 
+    var os = md.os(); //获取系统 
+    var model = "";
+    if (os == "iOS") { //ios系统的处理 
+        os = md.os() + md.version("iPhone");
+        model = md.mobile();
+    } else if (os == "AndroidOS") { //Android系统的处理 
+        os = md.os() + md.version("Android");
+        var sss = device_type.split(";");
+        var i = sss.contains("Build/");
+        if (i > -1) {
+            model = sss[i].substring(0, sss[i].indexOf("Build/"));
+        }
+    }
+    console.log(os + "---" + model); //打印系统版本和手机型号
+    $("#device_info").html("os: " + os + "\nmode: " + model)
+</script>
+
+<body>
+<div id="device_info"></div>
+</body>
+</html>

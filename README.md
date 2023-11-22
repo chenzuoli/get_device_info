@@ -1,1 +1,1 @@
-get mac address by js
+get device info by jquery.
